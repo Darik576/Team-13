@@ -70,7 +70,6 @@ class Record:
 
 
 class AddressBook(UserDict):
-
     def add_record(self, record: Record) -> None:
         self.data[record.name.value] = record
 
@@ -120,3 +119,22 @@ class AddressBook(UserDict):
                 })
 
         return upcoming
+
+    def search(self, query: str) -> list:
+        results = []
+        for record in self.data.values():
+            # Пошук по імені
+            if query.lower() in record.name.value.lower():
+                results.append(record)
+            # Пошук по телефону
+            elif any(query in phone.value for phone in record.phones):
+                results.append(record)
+            # Пошук по дню народження (тільки день і місяць)
+            elif record.birthday:
+                birthday = record.birthday.value
+                # Форматуємо день і місяць (наприклад, 12.03)
+                birthday_str = birthday.strftime("%d.%m")
+                if query == birthday_str:
+                    results.append(record)
+
+        return results
