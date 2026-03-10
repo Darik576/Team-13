@@ -85,3 +85,13 @@ def birthdays(args: List[str], book: AddressBook) -> str:
     if not upcoming:
         return "No birthdays in the next 7 days."
     return "\n".join(f"{u['name']} -> {u['congratulation_date']}" for u in upcoming)
+
+
+@input_error
+def search_contact(args: List[str], book: AddressBook) -> str:
+    query = args[0]  # отримуємо запит користувача
+    results = book.search(query)  # викликаємо метод search
+
+    if not results:
+        return "No matching contacts found."  # якщо результатів немає
+    return "\n".join(str(record) for record in results)  # виводимо знайдені контакти
