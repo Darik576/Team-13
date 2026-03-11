@@ -1,20 +1,9 @@
 from models import AddressBook
 from parser import parse_input
 from handlers import (
-    add_contact,
-    change_contact,
-    search_contact,
-    show_phone,
-    show_all,
-    add_birthday,
-    show_birthday,
-    birthdays,
-    delete_contact,
-    edit_contact_name,
-    add_email,
-    change_email,
-    add_address,
-    change_address,
+    add_contact, change_contact, search_contact, show_phone, show_all,
+    add_birthday, show_birthday, birthdays, 
+    delete_contact, edit_contact_name, show_birthday_after
 )
 from storage import save_data, load_data
 from notes_storage import load_notes, save_notes
@@ -29,7 +18,6 @@ from notes_handlers import (
     find_tag,
 )
 
-
 def show_help() -> str:
     return (
         "Available commands:\n"
@@ -43,10 +31,6 @@ def show_help() -> str:
         "add-birthday name DD.MM.YYYY - set or change birthday for a contact\n"
         "show-birthday name - show contact's birthday\n"
         "birthdays - show birthdays in the next 7 days\n"
-        "add-email name email - add email to contact\n"
-        "change-email name email - update contact's email\n"
-        "add-address name address - add address to contact\n"
-        "change-address name address - update contact's address\n"
         "search query - search contacts by name, phone, or birthday\n"
         "add-note text - add a new note\n"
         "show-notes - show all notes\n"
@@ -135,12 +119,10 @@ def main() -> None:
                 if not args:
                     print("Error: Enter contact name.")
                     continue
-
+                
                 name = args[0]
-                confirm = input(
-                    f"Are you sure you want to delete contact '{name}'? (y/n): "
-                ).lower()
-
+                confirm = input(f"Are you sure you want to delete contact '{name}'? (y/n): ").lower()
+                
                 if confirm in ["y", "yes"]:
                     print(delete_contact(args, book))
                 else:
@@ -149,19 +131,11 @@ def main() -> None:
             elif command == "edit-contact":
                 print(edit_contact_name(args, book))
 
-            elif command == "add-email":
-                print(add_email(args, book))
+            elif command == "show-birthday-after":
+                print(show_birthday_after(args, book))
 
-            elif command == "change-email":
-                print(change_email(args, book))
-
-            elif command == "add-address":
-                print(add_address(args, book))
-
-            elif command == "change-address":
-                print(change_address(args, book))
             else:
-                print("Invalid command.")
+                print("Invalid command.")            
     finally:
         save_data(book)
         save_notes(notes_book)
