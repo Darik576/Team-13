@@ -64,8 +64,12 @@ def add_birthday(args: List[str], book: AddressBook) -> str:
     record = book.find(name)
     if record is None:
         raise KeyError
+    
+    # Перевіряємо, чи це нове додавання чи оновлення
+    message = "Birthday updated." if record.birthday else "Birthday added."
+    
     record.add_birthday(birthday)
-    return "Birthday added."
+    return message
 
 
 @input_error
@@ -95,3 +99,26 @@ def search_contact(args: List[str], book: AddressBook) -> str:
     if not results:
         return "No matching contacts found."  # якщо результатів немає
     return "\n".join(str(record) for record in results)  # виводимо знайдені контакти
+
+
+@input_error
+def delete_contact(args: List[str], book: AddressBook) -> str:
+    name = args[0]
+    book.delete(name)
+    return f"Contact {name} deleted."
+
+@input_error
+def edit_contact_name(args: List[str], book: AddressBook) -> str:
+    old_name, new_name = args
+    record = book.find(old_name)
+    if record is None:
+        raise KeyError
+    
+    # Створюємо новий запис з новим ім'ям, але старими даними
+    new_record = Record(new_name)
+    new_record.phones = record.phones
+    new_record.birthday = record.birthday
+    
+    book.add_record(new_record)
+    book.delete(old_name)
+    return f"Contact {old_name} renamed to {new_name}."
