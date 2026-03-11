@@ -17,9 +17,31 @@ class Name(Field):
 
 class Phone(Field):
     def __init__(self, value: str):
-        if not value.isdigit() or len(value) != 10:
-            raise ValueError("Phone number must contain exactly 10 digits")
-        super().__init__(value)
+        if not value:
+            raise ValueError("Phone number cannot be empty.")
+
+        # 1. Очищення: залишаємо лише цифри
+        cleaned = "".join(filter(str.isdigit, value))
+
+        # 2. Нормалізація: зведення до формату 0XXXXXXXXX (10 цифр)
+        if len(cleaned) == 12 and cleaned.startswith("380"):
+            cleaned = cleaned[2:]
+        elif len(cleaned) == 11 and cleaned.startswith("80"):
+            cleaned = cleaned[1:]
+
+        # 3. Валідація довжини
+        if len(cleaned) != 10:
+            raise ValueError(
+                f"Invalid phone length: '{value}'. Expected 10 digits."
+            )
+
+        # 4. Валідація коду оператора
+        if not cleaned.startswith("0"):
+            raise ValueError(
+                "Ukrainian phone number must start with '0' (e.g., 095...)."
+            )
+
+        super().__init__(cleaned)
 
 
 class Birthday(Field):
@@ -38,7 +60,10 @@ class Record:
         self.birthday: Optional[Birthday] = None
 
     def add_phone(self, phone: str) -> None:
-        self.phones.append(Phone(phone))
+        new_phone = Phone(phone)
+        if any(p.value == new_phone.value for p in self.phones):
+            raise ValueError(f"Phone number {phone} already exists for this contact.")
+        self.phones.append(new_phone)
 
     def remove_phone(self, phone: str) -> None:
         for p in self.phones:

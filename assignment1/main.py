@@ -2,7 +2,8 @@ from models import AddressBook
 from parser import parse_input
 from handlers import (
     add_contact, change_contact, search_contact, show_phone, show_all,
-    add_birthday, show_birthday, birthdays
+    add_birthday, show_birthday, birthdays, 
+    delete_contact, edit_contact_name
 )
 from storage import save_data, load_data
 from notes_storage import load_notes, save_notes
@@ -23,9 +24,11 @@ def show_help() -> str:
         "hello - show greeting\n"
         "add name phone - add new contact or add phone to existing contact\n"
         "change name old_phone new_phone - change existing phone number\n"
+        "edit-contact old_name new_name - rename a contact\n"
+        "delete-contact name - remove a contact from the book\n"
         "phone name - show all phone numbers for contact\n"
         "all - show all contacts\n"
-        "add-birthday name DD.MM.YYYY - add birthday to contact\n"
+        "add-birthday name DD.MM.YYYY - set or change birthday for a contact\n"
         "show-birthday name - show contact's birthday\n"
         "birthdays - show birthdays in the next 7 days\n"
         "search query - search contacts by name, phone, or birthday\n"
@@ -111,6 +114,22 @@ def main() -> None:
 
             elif command == "find-tag":
                 print(find_tag(args, notes_book))
+
+            elif command == "delete-contact":
+                if not args:
+                    print("Error: Enter contact name.")
+                    continue
+                
+                name = args[0]
+                confirm = input(f"Are you sure you want to delete contact '{name}'? (y/n): ").lower()
+                
+                if confirm in ["y", "yes"]:
+                    print(delete_contact(args, book))
+                else:
+                    print("Deletion cancelled.")
+
+            elif command == "edit-contact":
+                print(edit_contact_name(args, book))
 
             else:
                 print("Invalid command.")            
