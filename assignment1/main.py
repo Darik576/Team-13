@@ -1,20 +1,9 @@
 from models import AddressBook
 from parser import parse_input
 from handlers import (
-    add_contact,
-    change_contact,
-    search_contact,
-    show_phone,
-    show_all,
-    add_birthday,
-    show_birthday,
-    birthdays,
-    delete_contact,
-    edit_contact_name,
-    add_email,
-    change_email,
-    add_address,
-    change_address,
+    add_contact, change_contact, search_contact, show_phone, show_all,
+    add_birthday, show_birthday, birthdays, 
+    delete_contact, edit_contact_name, show_birthday_after
 )
 from storage import save_data, load_data
 from notes_storage import load_notes, save_notes
@@ -29,18 +18,17 @@ from notes_handlers import (
     find_tag,
 )
 
-
 def show_help() -> str:
     return (
         "Available commands:\n"
         "--- General ---\n"
-        "hello          - show greeting\n"
-        "help           - show this list of commands\n"
-        "exit / close   - save data and exit\n"
+        "hello           - show greeting\n"
+        "help            - show this list of commands\n"
+        "exit / close    - save data and exit\n"
         "--- Contacts ---\n"
         "add name phone             - add new contact or add phone to existing\n"
-        "change name old new_phone  - change existing phone number\n"
-        "edit-contact old new_name  - rename a contact\n"
+        "change name old_phone new_phone - change existing phone number\n"
+        "edit-contact old_name new_name - rename a contact\n"
         "delete-contact name        - remove a contact from the book\n"
         "phone name                 - show all phone numbers for contact\n"
         "all                        - show all contacts with all details\n"
@@ -140,12 +128,10 @@ def main() -> None:
                 if not args:
                     print("Error: Enter contact name.")
                     continue
-
+                
                 name = args[0]
-                confirm = input(
-                    f"Are you sure you want to delete contact '{name}'? (y/n): "
-                ).lower()
-
+                confirm = input(f"Are you sure you want to delete contact '{name}'? (y/n): ").lower()
+                
                 if confirm in ["y", "yes"]:
                     print(delete_contact(args, book))
                 else:
@@ -154,19 +140,11 @@ def main() -> None:
             elif command == "edit-contact":
                 print(edit_contact_name(args, book))
 
-            elif command == "add-email":
-                print(add_email(args, book))
+            elif command == "show-birthday-after":
+                print(show_birthday_after(args, book))
 
-            elif command == "change-email":
-                print(change_email(args, book))
-
-            elif command == "add-address":
-                print(add_address(args, book))
-
-            elif command == "change-address":
-                print(change_address(args, book))
             else:
-                print("Invalid command.")
+                print("Invalid command.")            
     finally:
         save_data(book)
         save_notes(notes_book)

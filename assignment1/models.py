@@ -212,3 +212,36 @@ class AddressBook(UserDict):
                 continue
 
         return results
+    
+    def get_birthdays_exactly_in_days(self, days: int) -> list:
+        today = date.today()
+        results = []
+
+        for record in self.data.values():
+            if record.birthday is None:
+                continue
+
+            birthday: date = record.birthday.value
+            
+            # Визначаємо дату народження в поточному році
+            try:
+                birthday_this_year = birthday.replace(year=today.year)
+            except ValueError:
+                # Обробка 29 лютого для невисокосного року (переносимо на 1 березня)
+                birthday_this_year = date(today.year, 3, 1)
+
+            # Якщо дата вже минула, перевіряємо наступний рік
+            if birthday_this_year < today:
+                try:
+                    birthday_this_year = birthday.replace(year=today.year + 1)
+                except ValueError:
+                    birthday_this_year = date(today.year + 1, 3, 1)
+
+            # Розраховуємо точну різницю в днях
+            delta_days = (birthday_this_year - today).days
+
+            # Фільтруємо: тільки ті, у кого співпадає ТОЧНА кількість днів
+            if delta_days == days:
+                results.append(record)
+
+        return results
