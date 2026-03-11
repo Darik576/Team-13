@@ -1,7 +1,7 @@
 from models import AddressBook
 from parser import parse_input
 from handlers import (
-    add_contact, change_contact, search_contact, show_phone, show_all,
+    add_contact, change_contact, search_contact, show_birthday_on_day, show_phone, show_all,
     add_birthday, show_birthday, birthdays, 
     delete_contact, edit_contact_name
 )
@@ -130,6 +130,9 @@ def main() -> None:
 
             elif command == "edit-contact":
                 print(edit_contact_name(args, book))
+
+            elif command == "birthday-after":
+                print(show_birthday_on_day(args, book))
 
             else:
                 print("Invalid command.")            

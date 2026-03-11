@@ -122,3 +122,26 @@ def edit_contact_name(args: List[str], book: AddressBook) -> str:
     book.add_record(new_record)
     book.delete(old_name)
     return f"Contact {old_name} renamed to {new_name}."
+
+@input_error
+def show_birthday_on_day(args: List[str], book: AddressBook) -> str:
+    if not args:
+        raise ValueError("Please specify the number of days. Usage: birthday-after [X]")
+    
+    try:
+        # Отримуємо число X від користувача
+        days_str = args[0]
+        days = int(days_str)
+    except ValueError:
+        return "The number of days must be an integer."
+
+    # Викликаємо метод пошуку (який ми додали в AddressBook раніше)
+    contacts = book.get_birthdays_exactly_in_days(days)
+    
+    # Якщо список порожній — повертаємо ваше кастомне повідомлення
+    if not contacts:
+        return f"No birthdays in {days} days"
+    
+    # Якщо контакти знайдено — виводимо їх
+    result = "\n".join(str(record) for record in contacts)
+    return f"Birthdays in {days} days:\n{result}"
