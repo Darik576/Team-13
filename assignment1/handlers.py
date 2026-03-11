@@ -94,12 +94,17 @@ def birthdays(args: List[str], book: AddressBook) -> str:
 
 @input_error
 def search_contact(args: List[str], book: AddressBook) -> str:
-    query = args[0]  # отримуємо запит користувача
-    results = book.search(query)  # викликаємо метод search
+    if not args:
+        return "Enter search query."
+    
+    query = args[0]
+    results = book.search(query)
 
     if not results:
-        return "No matching contacts found."  # якщо результатів немає
-    return "\n".join(str(record) for record in results)  # виводимо знайдені контакти
+        return "No matching contacts found."
+    
+    # Виводимо кожен знайдений рекорд з нового рядка
+    return "\n".join(str(record) for record in results)
 
 
 @input_error
