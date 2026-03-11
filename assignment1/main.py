@@ -5,7 +5,17 @@ from handlers import (
     add_birthday, show_birthday, birthdays
 )
 from storage import save_data, load_data
-
+from notes_storage import load_notes, save_notes
+from notes_handlers import (
+    add_note,
+    show_notes,
+    find_note,
+    edit_note,
+    delete_note,
+    add_tag,
+    remove_tag,
+    find_tag,
+)
 
 def show_help() -> str:
     return (
@@ -19,12 +29,21 @@ def show_help() -> str:
         "show-birthday name - show contact's birthday\n"
         "birthdays - show birthdays in the next 7 days\n"
         "search query - search contacts by name, phone, or birthday\n"
+        "add-note text - add a new note\n"
+        "show-notes - show all notes\n"
+        "find-note query - search notes by text\n"
+        "edit-note id new_text - edit note text\n"
+        "delete-note id - delete note\n"
+        "add-tag id tag - add tag to note\n"
+        "remove-tag id tag - remove tag from note\n"
+        "find-tag tag - search notes by tag\n"
         "exit / close - exit the program"
     )
 
 
 def main() -> None:
     book = load_data()
+    notes_book = load_notes()
     print("Welcome to the assistant bot!")
     print("Type 'help' to see available commands.")
 
@@ -35,6 +54,7 @@ def main() -> None:
 
             if command in ["close", "exit"]:
                 save_data(book)
+                save_notes(notes_book)
                 print("Good bye!")
                 break
 
@@ -68,11 +88,36 @@ def main() -> None:
             elif command == "search":
                 print(search_contact(args, book))
 
+            elif command == "add-note":
+                print(add_note(args, notes_book))
+
+            elif command == "show-notes":
+                print(show_notes(notes_book))
+
+            elif command == "find-note":
+                print(find_note(args, notes_book))
+
+            elif command == "edit-note":
+                print(edit_note(args, notes_book))
+
+            elif command == "delete-note":
+                print(delete_note(args, notes_book))
+
+            elif command == "add-tag":
+                print(add_tag(args, notes_book))
+
+            elif command == "remove-tag":
+                print(remove_tag(args, notes_book))
+
+            elif command == "find-tag":
+                print(find_tag(args, notes_book))
+
             else:
                 print("Invalid command.")            
     finally:
         save_data(book)
-        print("Address book saved.")
+        save_notes(notes_book)
+        print("Address book and notes are saved.")
 
 
 if __name__ == "__main__":
