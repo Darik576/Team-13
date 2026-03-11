@@ -1,7 +1,7 @@
 from models import AddressBook
 from parser import parse_input
 from handlers import (
-    add_contact, change_contact, show_phone, show_all,
+    add_contact, change_contact, search_contact, show_phone, show_all,
     add_birthday, show_birthday, birthdays
 )
 from storage import save_data, load_data
@@ -18,6 +18,7 @@ def show_help() -> str:
         "add-birthday name DD.MM.YYYY - add birthday to contact\n"
         "show-birthday name - show contact's birthday\n"
         "birthdays - show birthdays in the next 7 days\n"
+        "search query - search contacts by name, phone, or birthday\n"
         "exit / close - exit the program"
     )
 
@@ -64,9 +65,11 @@ def main() -> None:
             elif command == "birthdays":
                 print(birthdays(args, book))
 
+            elif command == "search":
+                print(search_contact(args, book))
+
             else:
-                print("Invalid command.")
-                
+                print("Invalid command.")            
     finally:
         save_data(book)
         print("Address book saved.")
