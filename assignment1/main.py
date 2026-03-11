@@ -31,6 +31,7 @@ def show_help() -> str:
         "add-birthday name DD.MM.YYYY - set or change birthday for a contact\n"
         "show-birthday name - show contact's birthday\n"
         "birthdays - show birthdays in the next 7 days\n"
+        "birthday-after X - show birthdays in X days\n"
         "search query - search contacts by name, phone, or birthday\n"
         "add-note text - add a new note\n"
         "show-notes - show all notes\n"
