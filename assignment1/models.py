@@ -31,9 +31,7 @@ class Phone(Field):
 
         # 3. Валідація довжини
         if len(cleaned) != 10:
-            raise ValueError(
-                f"Invalid phone length: '{value}'. Expected 10 digits."
-            )
+            raise ValueError(f"Invalid phone length: '{value}'. Expected 10 digits.")
 
         # 4. Валідація коду оператора
         if not cleaned.startswith("0"):
@@ -53,11 +51,25 @@ class Birthday(Field):
             raise ValueError("Invalid date format. Use DD.MM.YYYY")
 
 
+class Email(Field):
+    def __init__(self, value: str):
+        # Базова валідація наявності @ та крапки після неї
+        if "@" not in value or "." not in value.split("@")[-1]:
+            raise ValueError("Invalid email format. Expected: example@mail.com")
+        super().__init__(value)
+
+
+class Address(Field):
+    pass
+
+
 class Record:
     def __init__(self, name: str):
         self.name = Name(name)
         self.phones: list[Phone] = []
         self.birthday: Optional[Birthday] = None
+        self.email: Optional[Email] = None  # Додати цей рядок
+        self.address: Optional[Address] = None  # І цей рядок
 
     def add_phone(self, phone: str) -> None:
         new_phone = Phone(phone)
@@ -88,10 +100,28 @@ class Record:
     def add_birthday(self, birthday: str) -> None:
         self.birthday = Birthday(birthday)
 
+    def add_email(self, email: str) -> None:
+        self.email = Email(email)
+
+    def add_address(self, address: str) -> None:
+        self.address = Address(address)
+
     def __str__(self) -> str:
         phones_str = "; ".join(p.value for p in self.phones)
-        bday = self.birthday.value.strftime("%d.%m.%Y") if self.birthday else "—"
-        return f"Contact name: {self.name.value}, phones: {phones_str}, birthday: {bday}"
+
+        # Перевіряємо наявність атрибутів, щоб не було помилки зі старими даними
+        bday = (
+            self.birthday.value.strftime("%d.%m.%Y")
+            if getattr(self, "birthday", None)
+            else "—"
+        )
+        email_str = self.email.value if getattr(self, "email", None) else "—"
+        address_str = self.address.value if getattr(self, "address", None) else "—"
+
+        return (
+            f"Contact name: {self.name.value}, phones: {phones_str}, "
+            f"birthday: {bday}, email: {email_str}, address: {address_str}"
+        )
 
 
 class AddressBook(UserDict):
@@ -138,10 +168,12 @@ class AddressBook(UserDict):
                 elif congratulation_date.weekday() == 6:
                     congratulation_date += timedelta(days=1)
 
-                upcoming.append({
-                    "name": record.name.value,
-                    "congratulation_date": congratulation_date.strftime("%d.%m.%Y")
-                })
+                upcoming.append(
+                    {
+                        "name": record.name.value,
+                        "congratulation_date": congratulation_date.strftime("%d.%m.%Y"),
+                    }
+                )
 
         return upcoming
 

@@ -14,6 +14,7 @@ def input_error(func):
             return "Contact not found."
         except Exception as e:
             return f"Unexpected error: {e}"
+
     return inner
 
 
@@ -64,10 +65,10 @@ def add_birthday(args: List[str], book: AddressBook) -> str:
     record = book.find(name)
     if record is None:
         raise KeyError
-    
+
     # Перевіряємо, чи це нове додавання чи оновлення
     message = "Birthday updated." if record.birthday else "Birthday added."
-    
+
     record.add_birthday(birthday)
     return message
 
@@ -107,18 +108,61 @@ def delete_contact(args: List[str], book: AddressBook) -> str:
     book.delete(name)
     return f"Contact {name} deleted."
 
+
 @input_error
 def edit_contact_name(args: List[str], book: AddressBook) -> str:
     old_name, new_name = args
     record = book.find(old_name)
     if record is None:
         raise KeyError
-    
+
     # Створюємо новий запис з новим ім'ям, але старими даними
     new_record = Record(new_name)
     new_record.phones = record.phones
     new_record.birthday = record.birthday
-    
+
     book.add_record(new_record)
     book.delete(old_name)
     return f"Contact {old_name} renamed to {new_name}."
+
+
+@input_error
+def add_email(args: List[str], book: AddressBook) -> str:
+    name, email = args
+    record = book.find(name)
+    if record is None:
+        raise KeyError
+    record.add_email(email)
+    return f"Email for {name} added."
+
+
+@input_error
+def change_email(args: List[str], book: AddressBook) -> str:
+    name, new_email = args
+    record = book.find(name)
+    if record is None:
+        raise KeyError
+    record.add_email(new_email)
+    return f"Email for {name} updated to {new_email}."
+
+
+@input_error
+def add_address(args: List[str], book: AddressBook) -> str:
+    name, *address_parts = args
+    address = " ".join(address_parts)
+    record = book.find(name)
+    if record is None:
+        raise KeyError
+    record.add_address(address)
+    return f"Address for {name} added."
+
+
+@input_error
+def change_address(args: List[str], book: AddressBook) -> str:
+    name, *address_parts = args
+    address = " ".join(address_parts)
+    record = book.find(name)
+    if record is None:
+        raise KeyError
+    record.add_address(address)
+    return f"Address for {name} updated."
