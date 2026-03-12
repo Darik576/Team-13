@@ -3,7 +3,8 @@ from parser import parse_input
 from handlers import (
     add_contact, change_contact, search_contact, show_phone, show_all,
     add_birthday, show_birthday, birthdays, 
-    delete_contact, edit_contact_name, show_birthday_after
+    delete_contact, edit_contact_name, show_birthday_after, add_email,
+    change_email, add_address, change_address
 )
 from storage import save_data, load_data
 from notes_storage import load_notes, save_notes
@@ -142,6 +143,18 @@ def main() -> None:
 
             elif command == "show-birthday-after":
                 print(show_birthday_after(args, book))
+
+            elif command == "add-email":
+                print(add_email(args, book))
+
+            elif command == "change-email":
+                print(change_email(args, book))
+
+            elif command == "add-address":
+                print(add_address(args, book))
+
+            elif command == "change-address":
+                print(change_address(args, book))
 
             else:
                 print("Invalid command.")            
