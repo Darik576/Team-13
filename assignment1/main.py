@@ -2,7 +2,8 @@ from models import AddressBook
 from parser import parse_input
 from handlers import (
     add_contact, change_contact, search_contact, show_phone, show_all,
-    add_birthday, show_birthday, birthdays
+    add_birthday, show_birthday, birthdays, 
+    delete_contact, edit_contact_name, show_birthday_after
 )
 from storage import save_data, load_data
 from notes_storage import load_notes, save_notes
@@ -15,29 +16,42 @@ from notes_handlers import (
     add_tag,
     remove_tag,
     find_tag,
+    sort_notes,
 )
 
 def show_help() -> str:
     return (
         "Available commands:\n"
-        "hello - show greeting\n"
-        "add name phone - add new contact or add phone to existing contact\n"
+        "--- General ---\n"
+        "hello           - show greeting\n"
+        "help            - show this list of commands\n"
+        "exit / close    - save data and exit\n"
+        "--- Contacts ---\n"
+        "add name phone             - add new contact or add phone to existing\n"
         "change name old_phone new_phone - change existing phone number\n"
-        "phone name - show all phone numbers for contact\n"
-        "all - show all contacts\n"
-        "add-birthday name DD.MM.YYYY - add birthday to contact\n"
-        "show-birthday name - show contact's birthday\n"
-        "birthdays - show birthdays in the next 7 days\n"
-        "search query - search contacts by name, phone, or birthday\n"
-        "add-note text - add a new note\n"
-        "show-notes - show all notes\n"
-        "find-note query - search notes by text\n"
-        "edit-note id new_text - edit note text\n"
-        "delete-note id - delete note\n"
-        "add-tag id tag - add tag to note\n"
-        "remove-tag id tag - remove tag from note\n"
-        "find-tag tag - search notes by tag\n"
-        "exit / close - exit the program"
+        "edit-contact old_name new_name - rename a contact\n"
+        "delete-contact name        - remove a contact from the book\n"
+        "phone name                 - show all phone numbers for contact\n"
+        "all                        - show all contacts with all details\n"
+        "search query               - search by name, phone, email, address, or birthday\n"
+        "--- Details ---\n"
+        "add-birthday name DD.MM.YYYY - set or change birthday\n"
+        "show-birthday name           - show contact's birthday\n"
+        "birthdays                    - show birthdays in the next 7 days\n"
+        "add-email name email         - add email to contact\n"
+        "change-email name email      - update contact's email\n"
+        "add-address name address     - add address (can include spaces)\n"
+        "change-address name address  - update contact's address\n"
+        "--- Notes ---\n"
+        "add-note text                - add a new note\n"
+        "show-notes                   - show all notes\n"
+        "find-note query              - search notes by text\n"
+        "edit-note id new_text        - edit note text\n"
+        "delete-note id               - delete note\n"
+        "add-tag id tag               - add tag to note\n"
+        "remove-tag id tag            - remove tag from note\n"
+        "sort-notes                   - sort notes by tags\n"
+        "find-tag tag                 - search notes by tag"
     )
 
 
@@ -111,6 +125,28 @@ def main() -> None:
 
             elif command == "find-tag":
                 print(find_tag(args, notes_book))
+
+            elif command == "sort-notes":
+                print(sort_notes(notes_book))
+
+            elif command == "delete-contact":
+                if not args:
+                    print("Error: Enter contact name.")
+                    continue
+                
+                name = args[0]
+                confirm = input(f"Are you sure you want to delete contact '{name}'? (y/n): ").lower()
+                
+                if confirm in ["y", "yes"]:
+                    print(delete_contact(args, book))
+                else:
+                    print("Deletion cancelled.")
+
+            elif command == "edit-contact":
+                print(edit_contact_name(args, book))
+
+            elif command == "show-birthday-after":
+                print(show_birthday_after(args, book))
 
             else:
                 print("Invalid command.")            
