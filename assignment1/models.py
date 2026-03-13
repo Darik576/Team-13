@@ -179,19 +179,73 @@ class AddressBook(UserDict):
 
     def search(self, query: str) -> list:
         results = []
+        query = query.lower()
+
         for record in self.data.values():
-            # Пошук по імені
-            if query.lower() in record.name.value.lower():
+            # 1. Пошук по імені
+            if query in record.name.value.lower():
                 results.append(record)
-            # Пошук по телефону
-            elif any(query in phone.value for phone in record.phones):
+                continue
+
+            # 2. Пошук по телефонах
+            if any(query in phone.value for phone in record.phones):
                 results.append(record)
-            # Пошук по дню народження (тільки день і місяць)
-            elif record.birthday:
-                birthday = record.birthday.value
-                # Форматуємо день і місяць (наприклад, 12.03)
-                birthday_str = birthday.strftime("%d.%m")
-                if query == birthday_str:
+                continue
+
+            # 3. Пошук по дню народження (повна дата DD.MM.YYYY)
+            if record.birthday:
+                bday_str = record.birthday.value.strftime("%d.%m.%Y")
+                if query in bday_str:
                     results.append(record)
+                    continue
+
+            # 4. Пошук по імейлу
+            email_field = getattr(record, "email", None)
+            if email_field and email_field.value and query in email_field.value.lower():
+                results.append(record)
+                continue
+
+            # 5. Пошук по адресі
+            address_field = getattr(record, "address", None)
+            if (
+                address_field
+                and address_field.value
+                and query in address_field.value.lower()
+            ):
+                results.append(record)
+                continue
+
+        return results
+
+    def get_birthdays_exactly_in_days(self, days: int) -> list:
+        today = date.today()
+        results = []
+
+        for record in self.data.values():
+            if record.birthday is None:
+                continue
+
+            birthday: date = record.birthday.value
+
+            # Визначаємо дату народження в поточному році
+            try:
+                birthday_this_year = birthday.replace(year=today.year)
+            except ValueError:
+                # Обробка 29 лютого для невисокосного року (переносимо на 1 березня)
+                birthday_this_year = date(today.year, 3, 1)
+
+            # Якщо дата вже минула, перевіряємо наступний рік
+            if birthday_this_year < today:
+                try:
+                    birthday_this_year = birthday.replace(year=today.year + 1)
+                except ValueError:
+                    birthday_this_year = date(today.year + 1, 3, 1)
+
+            # Розраховуємо точну різницю в днях
+            delta_days = (birthday_this_year - today).days
+
+            # Фільтруємо: тільки ті, у кого співпадає ТОЧНА кількість днів
+            if delta_days == days:
+                results.append(record)
 
         return results

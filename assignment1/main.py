@@ -15,6 +15,21 @@ from handlers import (
     change_email,
     add_address,
     change_address,
+    add_contact,
+    change_contact,
+    search_contact,
+    show_phone,
+    show_all,
+    add_birthday,
+    show_birthday,
+    birthdays,
+    delete_contact,
+    edit_contact_name,
+    show_birthday_after,
+    add_email,
+    change_email,
+    add_address,
+    change_address,
 )
 from storage import save_data, load_data
 from notes_storage import load_notes, save_notes
@@ -57,6 +72,31 @@ def show_help() -> str:
         "remove-tag id tag - remove tag from note\n"
         "find-tag tag - search notes by tag\n"
         "exit / close - exit the program"
+        "\n✨ " + "━" * 18 + " SMART ASSISTANT HELP " + "━" * 18 + " ✨\n"
+        "\n👤 CONTACTS MANAGEMENT\n"
+        "  ➕ add [name] [phone]                      • Додати новий контакт або телефон до існуючого\n"
+        "  ✏️  change [name] [old_phone] [new_phone]   • Замінити старий номер телефону на новий\n"
+        "  📛 edit-contact [old_name] [new_name]      • Змінити ім'я існуючого контакту\n"
+        "  🗑️  delete-contact [name]                  • Повністю видалити контакт з книги\n"
+        "  🔍 search [query_text]                     • Пошук за ім'ям, номером, поштою або адресою\n"
+        "  📱 all                                     • Показати всі контакти з усіма деталями\n"
+        "\n🎂 BIRTHDAYS & INFO\n"
+        "  📅 add-birthday [name] [DD.MM.YYYY]        • Встановити або змінити дату народження\n"
+        "  🎈 birthdays                               • Показати іменинників на найближчі 7 днів\n"
+        "  🎯 birthday-after [number_of_days]         • Знайти тих, у кого день народження рівно через X днів\n"
+        "  📧 add-email [name] [example@mail.com]     • Додати або оновити електронну пошту\n"
+        "  🏠 add-address [name] [full_address]       • Додати поштову адресу (можна з пробілами)\n"
+        "\n📝 NOTES & TAGS\n"
+        "  📓 add-note [note_text]                    • Створити нову нотатку з текстом\n"
+        "  📋 show-notes                              • Вивести список усіх збережених нотаток\n"
+        "  🔎 find-note [search_text]                 • Знайти нотатки, що містять вказаний текст\n"
+        "  🏷️  add-tag [note_id] [tag_name]            • Додати ключове слово (тег) до нотатки за її ID\n"
+        "  ❌ delete-note [note_id]                   • Видалити нотатку за її унікальним номером\n"
+        "\n⚙️  SYSTEM\n"
+        "  👋 hello                                   • Отримати привітання від бота\n"
+        "  ❓ help                                    • Викликати це меню допомоги\n"
+        "  🚪 exit / close                            • Зберегти всі зміни у файл та вийти\n"
+        "\n" + "━" * 60 + "\n"
     )
 
 
@@ -149,6 +189,9 @@ def main() -> None:
             elif command == "edit-contact":
                 print(edit_contact_name(args, book))
 
+            elif command == "show-birthday-after":
+                print(show_birthday_after(args, book))
+
             elif command == "add-email":
                 print(add_email(args, book))
 
@@ -160,6 +203,7 @@ def main() -> None:
 
             elif command == "change-address":
                 print(change_address(args, book))
+
             else:
                 print("Invalid command.")
     finally:
