@@ -152,3 +152,41 @@ def show_birthday_after(args: List[str], book: AddressBook) -> str:
         result.append(str(record))
         
     return "\n".join(result)
+
+@input_error
+def add_email(args: List[str], book: AddressBook) -> str:
+    name, email = args
+    record = book.find(name)
+    if record is None:
+        raise KeyError
+    record.add_email(email)
+    return f"Email for {name} added."
+
+@input_error
+def change_email(args: List[str], book: AddressBook) -> str:
+    name, new_email = args
+    record = book.find(name)
+    if record is None:
+        raise KeyError
+    record.add_email(new_email)
+    return f"Email for {name} updated to {new_email}."
+
+@input_error
+def add_address(args: List[str], book: AddressBook) -> str:
+    name, *address_parts = args
+    address = " ".join(address_parts)
+    record = book.find(name)
+    if record is None:
+        raise KeyError
+    record.add_address(address)
+    return f"Address for {name} added."
+
+@input_error
+def change_address(args: List[str], book: AddressBook) -> str:
+    name, *address_parts = args
+    address = " ".join(address_parts)
+    record = book.find(name)
+    if record is None:
+        raise KeyError
+    record.add_address(address)
+    return f"Address for {name} updated."

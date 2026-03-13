@@ -3,7 +3,8 @@ from parser import parse_input
 from handlers import (
     add_contact, change_contact, search_contact, show_phone, show_all,
     add_birthday, show_birthday, birthdays, 
-    delete_contact, edit_contact_name, show_birthday_after
+    delete_contact, edit_contact_name, show_birthday_after, add_email,
+    change_email, add_address, change_address
 )
 from storage import save_data, load_data
 from notes_storage import load_notes, save_notes
@@ -21,37 +22,63 @@ from notes_handlers import (
 
 def show_help() -> str:
     return (
-        "Available commands:\n"
-        "--- General ---\n"
-        "hello           - show greeting\n"
-        "help            - show this list of commands\n"
-        "exit / close    - save data and exit\n"
-        "--- Contacts ---\n"
-        "add name phone             - add new contact or add phone to existing\n"
-        "change name old_phone new_phone - change existing phone number\n"
-        "edit-contact old_name new_name - rename a contact\n"
-        "delete-contact name        - remove a contact from the book\n"
-        "phone name                 - show all phone numbers for contact\n"
-        "all                        - show all contacts with all details\n"
-        "search query               - search by name, phone, email, address, or birthday\n"
-        "--- Details ---\n"
-        "add-birthday name DD.MM.YYYY - set or change birthday\n"
-        "show-birthday name           - show contact's birthday\n"
-        "birthdays                    - show birthdays in the next 7 days\n"
-        "add-email name email         - add email to contact\n"
-        "change-email name email      - update contact's email\n"
-        "add-address name address     - add address (can include spaces)\n"
-        "change-address name address  - update contact's address\n"
-        "--- Notes ---\n"
-        "add-note text                - add a new note\n"
-        "show-notes                   - show all notes\n"
-        "find-note query              - search notes by text\n"
-        "edit-note id new_text        - edit note text\n"
-        "delete-note id               - delete note\n"
-        "add-tag id tag               - add tag to note\n"
-        "remove-tag id tag            - remove tag from note\n"
-        "sort-notes                   - sort notes by tags\n"
-        "find-tag tag                 - search notes by tag"
+        "\n✨━━━━━━━━━━━━━━━━ SMART ASSISTANT HELP ━━━━━━━━━━━━━━━━✨\n"
+
+        "\n👤 CONTACTS MANAGEMENT\n"
+        "  ➕ add [name] [phone]\n"
+        "     Додати новий контакт або телефон до існуючого\n"
+        "  ✏️ change [name] [old_phone] [new_phone]\n"
+        "     Замінити старий номер телефону на новий\n"
+        "  📛 edit-contact [old_name] [new_name]\n"
+        "     Змінити ім'я існуючого контакту\n"
+        "  🗑️ delete-contact [name]\n"
+        "     Повністю видалити контакт з книги\n"
+        "  🔍 search [query_text]\n"
+        "     Пошук за ім'ям, номером, поштою або адресою\n"
+        "  📱 all\n"
+        "     Показати всі контакти з усіма деталями\n"
+
+        "\n🎂 BIRTHDAYS & INFO\n"
+        "  🎂 add-birthday [name] [DD.MM.YYYY]\n"
+        "     Встановити або змінити дату народження\n"
+        "  🎉 birthdays\n"
+        "     Показати іменинників на найближчі 7 днів\n"
+        "  🎯 show-birthday-after [number_of_days]\n"
+        "     Знайти тих, у кого день народження через X днів\n"
+        "  📧 add-email [name] [email]\n"
+        "     Додати або змінити email контакту\n"
+        "  🏠 add-address [name] [address]\n"
+        "     Додати або змінити адресу контакту\n"
+
+        "\n📝 NOTES & TAGS\n"
+        "  📓 add-note [text]\n"
+        "     Створити нову нотатку\n"
+        "  📋 show-notes\n"
+        "     Показати всі нотатки\n"
+        "  🔎 find-note [text]\n"
+        "     Знайти нотатки за текстом\n"
+        "  ✏️ edit-note [id] [new_text]\n"
+        "     Редагувати текст нотатки\n"
+        "  🏷️ add-tag [note_id] [tag]\n"
+        "     Додати тег до нотатки\n"
+        "  🧹 remove-tag [note_id] [tag]\n"
+        "     Видалити тег з нотатки\n"
+        "  🔍 find-tag [tag]\n"
+        "     Знайти нотатки за тегом\n"
+        "  🔃 sort-notes\n"
+        "     Відсортувати нотатки за тегами\n"
+        "  ❌ delete-note [note_id]\n"
+        "     Видалити нотатку\n"
+
+        "\n⚙️ SYSTEM\n"
+        "  👋 hello\n"
+        "     Привітання від бота\n"
+        "  ❓ help\n"
+        "     Показати список команд\n"
+        "  🚪 exit / close\n"
+        "     Зберегти дані та вийти\n"
+
+        "\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
     )
 
 
@@ -147,6 +174,18 @@ def main() -> None:
 
             elif command == "show-birthday-after":
                 print(show_birthday_after(args, book))
+
+            elif command == "add-email":
+                print(add_email(args, book))
+
+            elif command == "change-email":
+                print(change_email(args, book))
+
+            elif command == "add-address":
+                print(add_address(args, book))
+
+            elif command == "change-address":
+                print(change_address(args, book))
 
             else:
                 print("Invalid command.")            

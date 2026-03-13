@@ -212,3 +212,4 @@ pull-request-list.txt
 # Ігнорувати папки кешу Python
 __pycache__/
 *.pyc
+*.pkl
