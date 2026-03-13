@@ -1,9 +1,31 @@
+"""
+Data models for the Smart Assistant.
+
+This module defines the core domain objects used in the application:
+- Field classes (Name, Phone, Birthday, Email, Address)
+- Record (represents a contact)
+- AddressBook (collection of contacts)
+
+The AddressBook class provides functionality for:
+- storing contacts
+- searching contacts
+- managing birthdays
+"""
+
+
 from collections import UserDict
 from datetime import datetime, date, timedelta
 from typing import Optional
 
 
 class Field:
+    """
+    Base class for all data fields used in contacts.
+
+    Stores a single value and provides string representation.
+    """
+
+
     def __init__(self, value):
         self.value = value
 
@@ -16,6 +38,18 @@ class Name(Field):
 
 
 class Phone(Field):
+    """
+    Represents a phone number with validation and normalization.
+
+    Supported formats:
+    - 0XXXXXXXXX
+    - +380XXXXXXXXX
+    - 380XXXXXXXXX
+
+    The number is normalized to Ukrainian format: 0XXXXXXXXX.
+    """
+
+
     def __init__(self, value: str):
         if not value:
             raise ValueError("Phone number cannot be empty.")
@@ -64,6 +98,18 @@ class Address(Field):
 
 
 class Record:
+    """
+    Represents a single contact in the address book.
+
+    A contact can contain:
+    - name
+    - multiple phone numbers
+    - birthday
+    - email
+    - address
+    """
+
+
     def __init__(self, name: str):
         self.name = Name(name)
         self.phones: list[Phone] = []
@@ -125,6 +171,16 @@ class Record:
 
 
 class AddressBook(UserDict):
+    """
+    Collection of contact records.
+
+    Provides methods to:
+    - add and delete contacts
+    - search contacts
+    - retrieve upcoming birthdays
+    """
+
+    
     def add_record(self, record: Record) -> None:
         self.data[record.name.value] = record
 

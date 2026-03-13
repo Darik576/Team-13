@@ -1,3 +1,11 @@
+"""
+Persistence layer for notes.
+
+Stores NotesBook object in a pickle file and restores
+it when the application starts.
+"""
+
+
 import pickle
 from pathlib import Path
 from .models import AddressBook

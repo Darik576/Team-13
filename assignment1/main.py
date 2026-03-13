@@ -1,3 +1,11 @@
+"""
+Entry point for the Smart Assistant CLI application.
+
+Initializes data storage and runs the main command loop.
+Handles routing of user commands to appropriate handlers.
+"""
+
+
 from .models import AddressBook
 from .parser import parse_input
 from .handlers import (
