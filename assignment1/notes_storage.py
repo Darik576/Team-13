@@ -1,6 +1,6 @@
 import pickle
 from pathlib import Path
-from notes import NotesBook
+from .notes import NotesBook
 
 BASE_DIR = Path(__file__).resolve().parent
 NOTES_FILE = BASE_DIR / "notes.pkl"

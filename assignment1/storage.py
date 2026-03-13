@@ -1,6 +1,6 @@
 import pickle
 from pathlib import Path
-from models import AddressBook
+from .models import AddressBook
 
 
 BASE_DIR = Path(__file__).resolve().parent

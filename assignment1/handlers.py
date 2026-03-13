@@ -1,4 +1,4 @@
-from models import Record, AddressBook
+from .models import Record, AddressBook
 from typing import List, Optional
 
 

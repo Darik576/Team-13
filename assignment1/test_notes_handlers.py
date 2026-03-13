@@ -1,5 +1,5 @@
-from notes import NotesBook
-from notes_handlers import (
+from .notes import NotesBook
+from .notes_handlers import (
     add_note,
     show_notes,
     find_note,

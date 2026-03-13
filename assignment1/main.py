@@ -1,14 +1,14 @@
-from models import AddressBook
-from parser import parse_input
-from handlers import (
+from .models import AddressBook
+from .parser import parse_input
+from .handlers import (
     add_contact, change_contact, search_contact, show_phone, show_all,
     add_birthday, show_birthday, birthdays, 
     delete_contact, edit_contact_name, show_birthday_after, add_email,
     change_email, add_address, change_address
 )
-from storage import save_data, load_data
-from notes_storage import load_notes, save_notes
-from notes_handlers import (
+from .storage import save_data, load_data
+from .notes_storage import load_notes, save_notes
+from .notes_handlers import (
     add_note,
     show_notes,
     find_note,

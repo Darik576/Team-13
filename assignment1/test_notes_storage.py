@@ -1,5 +1,5 @@
-from notes import NotesBook
-from notes_storage import save_notes, load_notes
+from .notes import NotesBook
+from .notes_storage import save_notes, load_notes
 
 notes = NotesBook()
 notes.add_note("Buy milk")
