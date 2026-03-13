@@ -1,8 +1,23 @@
+"""
+Command handlers for contact management.
+
+Each function corresponds to a CLI command and performs
+operations on the AddressBook object.
+"""
+
+
 from .models import Record, AddressBook
 from typing import List, Optional
 
 
 def input_error(func):
+    """
+    Decorator for handling common input errors in CLI commands.
+
+    Converts Python exceptions into user-friendly messages.
+    """
+
+
     def inner(*args, **kwargs):
         try:
             return func(*args, **kwargs)
@@ -20,6 +35,11 @@ def input_error(func):
 
 @input_error
 def add_contact(args: List[str], book: AddressBook) -> str:
+    """
+    Adds a new contact or appends a phone number to an existing contact.
+    """
+
+
     name, phone, *_ = args
     record = book.find(name)
     message = "Contact updated."
@@ -34,7 +54,12 @@ def add_contact(args: List[str], book: AddressBook) -> str:
 
 
 @input_error
-def change_contact(args: List[str], book: AddressBook) -> str:
+def search_contact(args: List[str], book: AddressBook) -> str:
+    """
+    Searches contacts by name, phone, birthday, email or address.
+    """
+
+
     name, old_phone, new_phone = args
     record = book.find(name)
     if record is None:
@@ -109,6 +134,11 @@ def search_contact(args: List[str], book: AddressBook) -> str:
 
 @input_error
 def delete_contact(args: List[str], book: AddressBook) -> str:
+    """
+    Deletes a contact from the address book.
+    """
+
+    
     name = args[0]
     book.delete(name)
     return f"Contact {name} deleted."

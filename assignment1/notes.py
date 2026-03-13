@@ -1,7 +1,25 @@
+"""
+Notes data model for the Smart Assistant.
+
+This module implements note management functionality,
+including text notes, tags and sorting.
+"""
+
+
 from collections import UserDict
 
 
 class Note:
+    """
+    Represents a single note.
+
+    Each note contains:
+    - unique ID
+    - text content
+    - optional tags
+    """
+
+
     def __init__(self, note_id: int, text: str, tags=None):
         self.id = note_id
         self.text = text
@@ -30,6 +48,19 @@ class Note:
 
 
 class NotesBook(UserDict):
+    """
+    Stores and manages all notes.
+
+    Provides functionality to:
+    - add notes
+    - edit notes
+    - delete notes
+    - search notes by text
+    - search notes by tag
+    - sort notes by tags
+    """
+
+    
     def __init__(self):
         super().__init__()
         self.next_id = 1

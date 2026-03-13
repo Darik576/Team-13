@@ -1,3 +1,11 @@
+"""
+CLI handlers for notes management.
+
+Functions in this module connect CLI commands
+with operations in NotesBook.
+"""
+
+
 def input_error(func):
     def inner(args, notes_book):
         try:
@@ -11,6 +19,11 @@ def input_error(func):
     return inner
 
 def sort_notes(notes_book):
+    """
+    Returns notes sorted alphabetically by their tags.
+    """
+
+
     notes = notes_book.sort_by_tags()
 
     if not notes:
@@ -20,6 +33,11 @@ def sort_notes(notes_book):
 
 @input_error
 def add_note(args, notes_book):
+    """
+    Creates a new note with provided text.
+    """
+
+    
     text = " ".join(args).strip()
     if not text:
         raise ValueError
