@@ -1,4 +1,4 @@
-from notes import NotesBook
+from .notes import NotesBook
 
 notes = NotesBook()
 
