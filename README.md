@@ -80,3 +80,106 @@ The project demonstrates several core Python concepts:
 ## Project Architecture
 
 The project follows a modular structure separating responsibilities between different components.
+
+```
+assignment1/
+│
+├── main.py
+├── parser.py
+├── models.py
+├── handlers.py
+├── storage.py
+│
+├── notes.py
+├── notes_handlers.py
+├── notes_storage.py
+│
+└── tests
+```
+
+### Modules description
+
+| Module              | Responsibility                             |
+| ------------------- | ------------------------------------------ |
+| `main.py`           | application entry point and command loop   |
+| `parser.py`         | parses user input into command + arguments |
+| `models.py`         | core contact data models                   |
+| `handlers.py`       | CLI commands for contacts                  |
+| `storage.py`        | persistence layer for contacts             |
+| `notes.py`          | notes data model                           |
+| `notes_handlers.py` | CLI commands for notes                     |
+| `notes_storage.py`  | persistence layer for notes                |
+
+---
+
+## Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/YOUR_REPOSITORY
+cd Team-13
+```
+
+Run the assistant:
+
+```bash
+python -m assignment1.main
+```
+
+## Usage
+
+Start the assistant and type commands in the console.
+
+Example commands:
+
+### Contacts
+
+```bash
+add John 0951234567
+add-email John john@mail.com
+add-address John Kyiv Khreshchatyk 10
+add-birthday John 15.03.1990
+search John
+all
+```
+
+### Notes
+
+```bash
+add-note Buy milk
+add-tag 1 shopping
+add-note Finish Python project
+find-note Python
+find-tag shopping
+sort-notes
+show-notes
+```
+
+###System Commands
+
+```bash
+help
+hello
+exit
+```
+
+---
+
+# Error Handling
+
+The project uses a decorator (input_error) that converts Python exceptions into user-friendly CLI messages.
+This improves user experience and prevents program crashes caused by incorrect input.
+
+---
+
+# Team Development Experience
+
+During the development of this project the team practiced:
+
+- collaborative Git workflow
+- feature branches
+- pull requests
+- resolving merge conflicts
+- repository cleanup (.gitignore)
+- modular architecture design
