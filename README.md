@@ -1,52 +1,82 @@
-🤖 Personal Assistant Bot (Team 13)
-Професійний консольний помічник для ефективного керування контактами та нотатками. Проєкт реалізований як повноцінний Python-пакет, що відповідає сучасним стандартам розробки.
+# Smart Assistant CLI Bot
 
-🛠 Інструкція зі встановлення
-Застосунок налаштований як пакет Python за допомогою файлу setup.py.
+A **command-line personal assistant** built with Python that helps manage **contacts and notes** in one place.
 
-Клонуйте репозиторій:
+The assistant allows users to store contacts with phone numbers, email, addresses, and birthdays, as well as create and manage notes with tags for easier organization and searching.
 
-Bash
-git clone [\[посилання на ваш репозиторій\]](https://github.com/Darik576/Team-13.git)
-cd "Team 13 project"
-Встановіть пакет у систему:
-У кореневій директорії проєкту виконайте команду:
+All data is stored locally and automatically restored when the program is restarted.
 
-Bash
-pip install .
-Примітка: Для розробників рекомендується встановлення в режимі редагування: pip install -e .
+---
 
-🚀 Використання
-Після встановлення бот стає доступним як системна команда.
+## Project Features
 
-Запуск програми:
-Bash
-assistant-bot
-(Якщо системні шляхи PATH не оновилися, використовуйте команду: python -m assignment1.main)
+### Contact Management
 
-Приклади команд:
-add [ім'я] [телефон] — додати новий контакт.
+The assistant supports full contact management functionality.
 
-add-birthday [ім'я] [дата] — встановити день народження (ДД.ММ.РРРР).
+Users can:
 
-add-note [текст] — створити нову текстову нотатку.
+- add new contacts
+- add multiple phone numbers
+- edit contact information
+- delete contacts
+- add and update email
+- add and update address
+- add birthdays
+- view upcoming birthdays
+- search contacts by:
+  - name
+  - phone
+  - birthday
+  - email
+  - address
 
-find-tag [тег] — пошук нотаток за ключовим словом.
+---
 
-all — показати всі контакти в адресній книзі.
+### Notes Management
 
-close або exit — завершити роботу зі збереженням даних.
+The assistant includes a notes system with tagging support.
 
-При першому запуску рекомендуємо скористатися help щоб побачити весь набір доступних команд. 
+Users can:
 
-📁 Структура проєкту
-assignment1/ — ядро застосунку (логіка, моделі, обробники).
+- create notes
+- edit notes
+- delete notes
+- add tags to notes
+- remove tags
+- search notes by text
+- search notes by tag
+- sort notes by tags
 
-setup.py — конфігурація для встановлення пакета.
+---
 
-README.md — інструкція та документація.
+## Data Persistence
 
-__init__.py — ініціалізація пакета.
+All user data is saved locally using **pickle serialization**.
 
-🗃 Збереження даних
-Бот автоматично зберігає всі ваші записи у файли addressbook.pkl та notes.pkl при виході з програми. При наступному запуску дані завантажуються автоматично.
+Two storage files are used:
+
+- `addressbook.pkl` — contacts
+- `notes.pkl` — notes
+
+When the application starts, previously saved data is automatically loaded.
+
+---
+
+## Technologies Used
+
+The project demonstrates several core Python concepts:
+
+- Python 3
+- Object-Oriented Programming (OOP)
+- CLI (Command Line Interface)
+- Modular architecture
+- Error handling with decorators
+- Data persistence with `pickle`
+- Git collaborative workflow
+
+---
+
+## Project Architecture
+
+The project follows a modular structure separating responsibilities between different components.
