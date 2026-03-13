@@ -76,5 +76,11 @@ class NotesBook(UserDict):
     def find_by_tag(self, tag: str):
         return [note for note in self.data.values() if note.matches_tag(tag)]
 
+    def sort_by_tags(self):
+        return sorted(
+            self.data.values(),
+            key=lambda note: ",".join(sorted(note.tags)) if note.tags else ""
+        )
+
     def show_all(self):
         return list(self.data.values())

@@ -10,6 +10,13 @@ def input_error(func):
             return "Note not found."
     return inner
 
+def sort_notes(notes_book):
+    notes = notes_book.sort_by_tags()
+
+    if not notes:
+        return "No notes found."
+
+    return "\n".join(str(note) for note in notes)
 
 @input_error
 def add_note(args, notes_book):

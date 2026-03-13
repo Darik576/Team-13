@@ -17,40 +17,68 @@ from notes_handlers import (
     add_tag,
     remove_tag,
     find_tag,
+    sort_notes,
 )
 
 def show_help() -> str:
     return (
-        "\n✨ " + "━" * 18 + " SMART ASSISTANT HELP " + "━" * 18 + " ✨\n"
-        
+        "\n✨━━━━━━━━━━━━━━━━ SMART ASSISTANT HELP ━━━━━━━━━━━━━━━━✨\n"
+
         "\n👤 CONTACTS MANAGEMENT\n"
-        "  ➕ add [name] [phone]                      • Додати новий контакт або телефон до існуючого\n"
-        "  ✏️  change [name] [old_phone] [new_phone]   • Замінити старий номер телефону на новий\n"
-        "  📛 edit-contact [old_name] [new_name]      • Змінити ім'я існуючого контакту\n"
-        "  🗑️  delete-contact [name]                  • Повністю видалити контакт з книги\n"
-        "  🔍 search [query_text]                     • Пошук за ім'ям, номером, поштою або адресою\n"
-        "  📱 all                                     • Показати всі контакти з усіма деталями\n"
-        
+        "  ➕ add [name] [phone]\n"
+        "     Додати новий контакт або телефон до існуючого\n"
+        "  ✏️ change [name] [old_phone] [new_phone]\n"
+        "     Замінити старий номер телефону на новий\n"
+        "  📛 edit-contact [old_name] [new_name]\n"
+        "     Змінити ім'я існуючого контакту\n"
+        "  🗑️ delete-contact [name]\n"
+        "     Повністю видалити контакт з книги\n"
+        "  🔍 search [query_text]\n"
+        "     Пошук за ім'ям, номером, поштою або адресою\n"
+        "  📱 all\n"
+        "     Показати всі контакти з усіма деталями\n"
+
         "\n🎂 BIRTHDAYS & INFO\n"
-        "  📅 add-birthday [name] [DD.MM.YYYY]        • Встановити або змінити дату народження\n"
-        "  🎈 birthdays                               • Показати іменинників на найближчі 7 днів\n"
-        "  🎯 birthday-after [number_of_days]         • Знайти тих, у кого день народження рівно через X днів\n"
-        "  📧 add-email [name] [example@mail.com]     • Додати або оновити електронну пошту\n"
-        "  🏠 add-address [name] [full_address]       • Додати поштову адресу (можна з пробілами)\n"
-        
+        "  🎂 add-birthday [name] [DD.MM.YYYY]\n"
+        "     Встановити або змінити дату народження\n"
+        "  🎉 birthdays\n"
+        "     Показати іменинників на найближчі 7 днів\n"
+        "  🎯 show-birthday-after [number_of_days]\n"
+        "     Знайти тих, у кого день народження через X днів\n"
+        "  📧 add-email [name] [email]\n"
+        "     Додати або змінити email контакту\n"
+        "  🏠 add-address [name] [address]\n"
+        "     Додати або змінити адресу контакту\n"
+
         "\n📝 NOTES & TAGS\n"
-        "  📓 add-note [note_text]                    • Створити нову нотатку з текстом\n"
-        "  📋 show-notes                              • Вивести список усіх збережених нотаток\n"
-        "  🔎 find-note [search_text]                 • Знайти нотатки, що містять вказаний текст\n"
-        "  🏷️  add-tag [note_id] [tag_name]            • Додати ключове слово (тег) до нотатки за її ID\n"
-        "  ❌ delete-note [note_id]                   • Видалити нотатку за її унікальним номером\n"
-        
-        "\n⚙️  SYSTEM\n"
-        "  👋 hello                                   • Отримати привітання від бота\n"
-        "  ❓ help                                    • Викликати це меню допомоги\n"
-        "  🚪 exit / close                            • Зберегти всі зміни у файл та вийти\n"
-        
-        "\n" + "━" * 60 + "\n"
+        "  📓 add-note [text]\n"
+        "     Створити нову нотатку\n"
+        "  📋 show-notes\n"
+        "     Показати всі нотатки\n"
+        "  🔎 find-note [text]\n"
+        "     Знайти нотатки за текстом\n"
+        "  ✏️ edit-note [id] [new_text]\n"
+        "     Редагувати текст нотатки\n"
+        "  🏷️ add-tag [note_id] [tag]\n"
+        "     Додати тег до нотатки\n"
+        "  🧹 remove-tag [note_id] [tag]\n"
+        "     Видалити тег з нотатки\n"
+        "  🔍 find-tag [tag]\n"
+        "     Знайти нотатки за тегом\n"
+        "  🔃 sort-notes\n"
+        "     Відсортувати нотатки за тегами\n"
+        "  ❌ delete-note [note_id]\n"
+        "     Видалити нотатку\n"
+
+        "\n⚙️ SYSTEM\n"
+        "  👋 hello\n"
+        "     Привітання від бота\n"
+        "  ❓ help\n"
+        "     Показати список команд\n"
+        "  🚪 exit / close\n"
+        "     Зберегти дані та вийти\n"
+
+        "\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
     )
 
 
@@ -124,6 +152,9 @@ def main() -> None:
 
             elif command == "find-tag":
                 print(find_tag(args, notes_book))
+
+            elif command == "sort-notes":
+                print(sort_notes(notes_book))
 
             elif command == "delete-contact":
                 if not args:
