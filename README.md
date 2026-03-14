@@ -127,6 +127,8 @@ Run the assistant:
 python -m assignment1.main
 ```
 
+or use RunBot.bat to start the program.
+
 ## Usage
 
 Start the assistant and type commands in the console.
