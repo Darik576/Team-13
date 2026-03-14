@@ -117,7 +117,7 @@ assignment1/
 Clone the repository:
 
 ```bash
-git clone https://github.com/YOUR_REPOSITORY
+git clone https://github.com/Darik576/Team-13.git
 cd Team-13
 ```
 
