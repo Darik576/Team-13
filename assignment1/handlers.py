@@ -54,9 +54,9 @@ def add_contact(args: List[str], book: AddressBook) -> str:
 
 
 @input_error
-def search_contact(args: List[str], book: AddressBook) -> str:
+def change_contact(args: List[str], book: AddressBook) -> str:
     """
-    Searches contacts by name, phone, birthday, email or address.
+    Changes a contact's phone number.
     """
 
 
