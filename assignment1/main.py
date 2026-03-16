@@ -5,7 +5,7 @@ Initializes data storage and runs the main command loop.
 Handles routing of user commands to appropriate handlers.
 """
 
-
+import difflib
 from .models import AddressBook
 from .parser import parse_input
 from .handlers import (
@@ -27,6 +27,34 @@ from .notes_handlers import (
     find_tag,
     sort_notes,
 )
+
+INTENTS = {
+    "hello": ["hello", "hi", "привіт", "вітаю"],
+    "help": ["help", "допомога", "команди", "що ти вмієш"],
+    "add": ["add", "new", "create", "додати", "новий", "записати"],
+    "change": ["change", "edit", "update", "змінити", "редагувати", "оновити"],
+    "phone": ["phone", "number", "номер", "телефон"],
+    "all": ["all", "show-all", "всі", "список", "показати-все", "покажи"],
+    "search": ["search", "find", "пошук", "знайти"],
+    "birthdays": ["birthdays", "next-birthdays", "дні-народження", "іменинники"],
+    "add-note": ["add-note", "new-note", "нотатка", "записка"],
+    "exit": ["exit", "close", "quit", "вихід", "бувай", "стоп", "пака"],
+    "edit-contact": ["edit-contact", "rename", "перейменувати"],
+    "delete-contact": ["delete-contact", "remove-contact", "видалити-контакт"],
+    "add-email": ["add-email", "set-email", "пошта", "мейл"],
+    "change-email": ["change-email", "edit-email", "оновити-пошту"], 
+    "add-address": ["add-address", "set-address", "адреса"],
+    "change-address": ["change-address", "edit-address", "оновити-адресу"], 
+    "show-birthday-after": ["show-birthday-after", "birthday-after", "через", "днів"],
+    "show-notes": ["show-notes", "нотатки", "всі-нотатки"], 
+    "find-note": ["find-note", "search-note", "знайти-нотатку"], 
+    "edit-note": ["edit-note", "change-note", "редагувати-нотатку"], 
+    "delete-note": ["delete-note", "remove-note", "видалити-нотатку"], 
+    "add-tag": ["add-tag", "tag", "тег", "додати-тег"], 
+    "remove-tag": ["remove-tag", "delete-tag", "видалити-тег"], 
+    "find-tag": ["find-tag", "search-tag", "знайти-тег"], 
+    "sort-notes": ["sort-notes", "sort", "сортувати", "сортування"], 
+}
 
 def show_help() -> str:
     return (
@@ -90,7 +118,35 @@ def show_help() -> str:
     )
 
 
+def get_command_from_intent(user_word: str) -> str:
+    """Перетворює слово користувача на офіційну команду на основі синонімів."""
+    user_word = user_word.lower().strip()
+    
+    # 1. Перевірка на прямий збіг зі словником синонімів
+    for official_command, synonyms in INTENTS.items():
+        if user_word in synonyms:
+            return official_command
+            
+    # 2. Якщо прямого збігу немає, використовуємо нечіткий пошук (Fuzzy Matching)
+    # Збираємо всі можливі слова (ключі + синоніми) в один список
+    flattened_synonyms = [syn for syns in INTENTS.values() for syn in syns]
+    matches = difflib.get_close_matches(user_word, flattened_synonyms, n=1, cutoff=0.6)
+    
+    if matches:
+        # Шукаємо, якій офіційній команді належить знайдений синонім
+        for official_command, synonyms in INTENTS.items():
+            if matches[0] in synonyms:
+                return official_command
+                
+    return user_word # Повертаємо як є, якщо нічого не знайдено
+
+
 def main() -> None:
+    """
+    Main entry point for the assistant bot.
+    Initializes data, runs the command loop, and provides 
+    fuzzy string matching for intelligent command analysis.
+    """
     book = load_data()
     notes_book = load_notes()
     print("Welcome to the assistant bot!")
@@ -99,7 +155,13 @@ def main() -> None:
     try:
         while True:
             user_input = input("Enter a command: ")
-            command, args = parse_input(user_input)
+            raw_command, args = parse_input(user_input) # Зберігаємо оригінальне слово
+
+            if not raw_command:
+                continue
+            
+            # Викликаємо інтелектуальний аналізатор
+            command = get_command_from_intent(raw_command)
 
             if command in ["close", "exit"]:
                 save_data(book)
@@ -196,7 +258,10 @@ def main() -> None:
                 print(change_address(args, book))
 
             else:
-                print("Invalid command.")            
+                # Якщо команда не потрапила в жоден elif
+                print(f"I'm sorry, I don't recognize '{raw_command}'.")
+                print("Type 'help' to see what I can do.")
+
     finally:
         save_data(book)
         save_notes(notes_book)
