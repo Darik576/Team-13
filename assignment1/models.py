@@ -296,8 +296,8 @@ class AddressBook(UserDict):
             # Розраховуємо точну різницю в днях
             delta_days = (birthday_this_year - today).days
 
-            # Фільтруємо: тільки ті, у кого співпадає ТОЧНА кількість днів
-            if delta_days == days:
+            # Фільтруємо: тільки ті, у кого співпадає кількість днів
+            if delta_days <= days:
                 results.append(record)
 
         return results
