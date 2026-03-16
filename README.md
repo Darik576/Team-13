@@ -50,6 +50,12 @@ Users can:
 
 ---
 
+### 🧠 Intelligent Command Analysis
+The assistant features an **Intelligent Command Analyzer** that makes interaction more natural:
+- **Intent Recognition:** Understands synonyms (e.g., you can type `create` or `новий` instead of `add`).
+- **Fuzzy Matching:** If you make a typo (e.g., `ad-contct`), the bot will suggest the closest correct command.
+- **Multilingual Support:** Supports commands and synonyms in both **English** and **Ukrainian**.
+
 ## Data Persistence
 
 All user data is saved locally using **pickle serialization**.
@@ -131,7 +137,10 @@ or use RunBot.bat to start the program.
 
 ## Usage
 
-Start the assistant and type commands in the console.
+After installation, you can start the assistant using one of these methods:
+1. **Console Command:** Simply type `assistant-bot` in your terminal.
+2. **Python Module:** Run `python -m assignment1.main`.
+3. **Desktop Shortcut:** Use the provided `RunBot.bat` file for a quick start on Windows.
 
 Example commands:
 
@@ -185,3 +194,10 @@ During the development of this project the team practiced:
 - resolving merge conflicts
 - repository cleanup (.gitignore)
 - modular architecture design
+
+---
+
+## 📝 Documentation & Standards
+- **Code Documentation:** All core functions include **Docstrings** and comments explaining the logic.
+- **Packaging:** The project is structured as a Python package with `setup.py` and entry points.
+- **PEP8:** The code follows Python styling guidelines for better readability.
