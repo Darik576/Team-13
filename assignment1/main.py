@@ -81,7 +81,7 @@ def show_help() -> str:
         "  🎉 birthdays\n"
         "     Показати іменинників на найближчі 7 днів\n"
         "  🎯 show-birthday-after [number_of_days]\n"
-        "     Знайти тих, у кого день народження через X днів\n"
+        "     Знайти тих, у кого день народження в наступні X днів\n"
         "  📧 add-email [name] [email]\n"
         "     Додати або змінити email контакту\n"
         "  🏠 add-address [name] [address]\n"
